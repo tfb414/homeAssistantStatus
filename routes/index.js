@@ -13,6 +13,7 @@ router.get('/status/:entity', async (req, res) => {
   res.sendStatus(status);
 });
 
+//This really should be a Remote Procedure call
 router.get('/motionSensorActivated', async (req, res) => {
   console.log('inside')
   const status = await services.checkState('group.great_room');

@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const fetch = require('node-fetch');
-const services = require('./services')
+const services = require('./services');
 
 let homeStatus = {
-  garage: true,
+  //true means open the good thing
+  // garage door: true means it's closed
+  // garageLight: true means it's off
+  garageDoor: true,
+  garageLight: true,
   button: true
 };
 
@@ -15,7 +18,6 @@ router.get('/status/:entity', async (req, res) => {
 
 //This really should be a Remote Procedure call
 router.get('/motionSensorActivated', async (req, res) => {
-  console.log('inside')
   const status = await services.checkState('group.great_room');
   if (status['state'] === 'off') {
     services.dimLights();
@@ -23,12 +25,32 @@ router.get('/motionSensorActivated', async (req, res) => {
   res.sendStatus(200);
 });
 
-router.post('/status', (req, res) => {
+router.get('/status', (req, res) => {
   res.send(homeStatus);
+});
+
+router.get('/stringStatus', (req, res) => {
+  const stringedStatus = {
+    garageDoor: homeStatus.garageDoor.toString(),
+    garageLight: homeStatus.garageLight.toString(),
+  }
+  res.send(stringedStatus);
 });
 
 router.post('/turnOnLight', (req, res) => {
   res.send(200);
-})
+});
+
+router.post('/garage', (req, res) => {
+  console.log(req.body);
+  homeStatus.garageDoor = convertStringToBoolean(req.body.garageDoor);
+  homeStatus.garageLight = convertStringToBoolean(req.body.garageLight);
+  res.sendStatus(200);
+});
+
+const convertStringToBoolean = (str) => {
+  return str === 'true';
+};
+
 
 module.exports = router;

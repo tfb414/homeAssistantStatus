@@ -3,11 +3,8 @@ const router = express.Router();
 const services = require('./services');
 
 let homeStatus = {
-  //true means open the good thing
-  // garage door: true means it's closed
-  // garageLight: true means it's off
-  garageDoor: true,
-  garageLight: true,
+  garageDoorClosed: true,
+  garageLightOff: false,
   button: true
 };
 
@@ -30,11 +27,9 @@ router.get('/status', (req, res) => {
 });
 
 router.get('/stringStatus', (req, res) => {
-  const stringedStatus = {
-    garageDoor: homeStatus.garageDoor.toString(),
-    garageLight: homeStatus.garageLight.toString(),
-  }
-  res.send(stringedStatus);
+  console.log('GET stringStatus:', convertStatusToString());
+  console.log('hs', homeStatus);
+  res.send(convertStatusToString());
 });
 
 router.post('/turnOnLight', (req, res) => {
@@ -43,13 +38,20 @@ router.post('/turnOnLight', (req, res) => {
 
 router.post('/garage', (req, res) => {
   console.log(req.body);
-  homeStatus.garageDoor = convertStringToBoolean(req.body.garageDoor);
-  homeStatus.garageLight = convertStringToBoolean(req.body.garageLight);
-  res.sendStatus(200);
+  homeStatus.garageDoorClosed = convertStringToBoolean(req.body.garageDoorClosed);
+  homeStatus.garageLightOff = convertStringToBoolean(req.body.garageLightOff);
+  res.send(convertStatusToString());
 });
 
 const convertStringToBoolean = (str) => {
   return str === 'true';
+};
+
+const convertStatusToString = () => {
+  return {
+    garageDoorClosed: homeStatus.garageDoorClosed.toString(),
+    garageLightOff: homeStatus.garageLightOff.toString(),
+  };
 };
 
 

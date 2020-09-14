@@ -1,34 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const services = require('./services');
+
+//currently set to the wrong time zone should be -06:00 or something;
+let getDate = () => {
+  let date = new Date();
+  let now = date.getTime();
+  console.log("The current epoch time is: ", now);
+  return now;
+};
 
 let homeStatus = {
   garageDoorClosed: true,
   garageLightOff: false,
-  button: true
+  button: true,
+  garageDoorAlert: getDate(),
 };
 
-router.get('/status/:entity', async (req, res) => {
-  const status = await services.checkState(req.params.entity);
-  res.sendStatus(status);
-});
 
-//This really should be a Remote Procedure call
-router.get('/motionSensorActivated', async (req, res) => {
-  const status = await services.checkState('group.great_room');
-  if (status['state'] === 'off') {
-    services.dimLights();
-  }
-  res.sendStatus(200);
-});
 
 router.get('/status', (req, res) => {
-  res.send(homeStatus);
+  res.send({
+    garageDoorClosed: homeStatus.garageDoorClosed,
+    garageLightOff: homeStatus.garageLightOff,
+  });
 });
 
 router.get('/stringStatus', (req, res) => {
   console.log('GET stringStatus:', convertStatusToString());
-  console.log('hs', homeStatus);
   res.send(convertStatusToString());
 });
 
@@ -41,6 +39,12 @@ router.post('/garage', (req, res) => {
   homeStatus.garageDoorClosed = convertStringToBoolean(req.body.garageDoorClosed);
   homeStatus.garageLightOff = convertStringToBoolean(req.body.garageLightOff);
   res.send(convertStatusToString());
+});
+
+router.post('/garageAlert', (req, res) => {
+  const date = getDate();
+  console.log(date);
+  homeStatus.garageDoorAlert = date;
 });
 
 const convertStringToBoolean = (str) => {

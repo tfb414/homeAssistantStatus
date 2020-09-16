@@ -1,0 +1,6 @@
+#!/bin/sh
+
+path=/home/pi/development/homeAssistantStatus/scripts
+
+@reboot sleep 60 && ./start.sh
+@reboot echo derp derp > fart.log

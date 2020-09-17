@@ -9,7 +9,7 @@ let homeStatus = {
     garage: {
         doorClosed: true,
         lightOff: true,
-        lastAlert: dateService.getCurrentEpochDate(),
+        lastAlert: 0,
         healthCheck: dateService.getCurrentEpochDate(),
     }
 };
@@ -35,7 +35,7 @@ router.get('/status', (req, res) => {
         ...homeStatus,
         garage: {
           ...homeStatus.garage,
-          alert: dateService.convertTimeToHumanReadable(homeStatus.garage.lastAlert),
+          lastAlert: dateService.convertTimeToHumanReadable(homeStatus.garage.lastAlert),
           healthCheck: dateService.convertTimeToHumanReadable(homeStatus.garage.healthCheck)
         }
     });

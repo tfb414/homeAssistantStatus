@@ -1,0 +1,13 @@
+Description=homeAssistantStatus
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/node -u ./bin/www
+WorkingDirectory=/home/pi/development/homeAssistantStatus
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target

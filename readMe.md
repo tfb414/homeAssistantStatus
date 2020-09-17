@@ -7,6 +7,7 @@ This repo is used to help some of my deployed Arduino's do less work which is wh
 ### Update / upgrade pi
 
 `sudo apt-get update`
+
 `sudo apt-get upgrade`
 
 ### Install node 
@@ -21,22 +22,32 @@ To unzip:
 Cd into the directory you just unzipped and copy all of that so that node is available on path
 
 `cd node-v10.13.0-linux-armv6l.tarxz`
+
 `sudo cp -R * /usr/local/`
 
 Make sure it's all working correctly
 
 `node -v`
+
 `npm -v`
 
 ### Setting up the code
 
-`git clone https://github.com/tfb414/homeAssistantStatus`
+`git clone https://github.com/tfb414/homeAssistantStatus` 
 
 `npm install`
 
 `npm start`
 
+### Auto start
 
+`sudo cp homeAssistantStatus.service /etc/systemd/system/homeAssistantService.service`
+
+`sudo systemctl start homeAssistantStatus.service`
+
+Make sure everything is working correctly then you can enable auto start with the below command
+
+`sudo systemctl enable homeAssistantStatus.service`
 
 ### Setup the pi
 

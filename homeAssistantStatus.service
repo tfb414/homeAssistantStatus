@@ -2,7 +2,7 @@ Description=homeAssistantStatus
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/node -u ./bin/www
+ExecStart=/usr/local/bin/node -u ./bin/www
 WorkingDirectory=/home/pi/development/homeAssistantStatus
 StandardOutput=inherit
 StandardError=inherit

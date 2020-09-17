@@ -31,11 +31,13 @@ router.get('/healthCheck', (req, res) => {
 });
 
 router.get('/status', (req, res) => {
+    const lastAlert = dateService.convertTimeToHumanReadable(homeStatus.garage.lastAlert);
+
     res.send({
         ...homeStatus,
         garage: {
           ...homeStatus.garage,
-          lastAlert: dateService.convertTimeToHumanReadable(homeStatus.garage.lastAlert),
+          lastAlert: homeStatus.garage.lastAlert ? lastAlert : 0,
           healthCheck: dateService.convertTimeToHumanReadable(homeStatus.garage.healthCheck)
         }
     });

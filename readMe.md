@@ -4,6 +4,21 @@ This repo is used to help some of my deployed Arduino's do less work which is wh
 
 ## Setting up the Raspberry Pi
 
+### Headless setup
+
+1. Flash the sd card with image
+2. Navigate to sd card `touch ssh` to enable ssh
+3. `touch wpa_supplicant.conf` and copy the below into that file to setup wifi
+
+`ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=US
+
+network={
+    ssid="your network"
+    psk="password"
+}`
+
 ### Update / upgrade pi
 
 `sudo apt-get update`

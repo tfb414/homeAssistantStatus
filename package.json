@@ -14,11 +14,13 @@
     "debug": "~2.6.3",
     "dotenv": "^8.1.0",
     "express": "^4.15.2",
+    "express-winston": "^4.0.5",
     "mime": "^1.4.1",
     "morgan": "^1.9.1",
     "node-fetch": "^2.3.0",
     "pug": "^3.0.0",
     "serve-favicon": "^2.4.2",
-    "uglify-js": "^2.6.0"
+    "uglify-js": "^2.6.0",
+    "winston": "^3.3.3"
   }
 }

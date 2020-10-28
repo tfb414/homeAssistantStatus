@@ -11,8 +11,26 @@ let homeStatus = {
         lightOff: true,
         lastAlert: 0,
         healthCheck: dateService.getCurrentEpochDate(),
+    },
+    fridge: {
+        keg1Volume: 0,
+        keg2Volume: 0,
     }
 };
+
+router.post('/kegVolume/', (req, res) => {
+    //take in query param for which keg?
+    // if (req.volume )
+    console.log(req.body);
+    // homeStatus.fridge.keg1Volume = req.body.kegVolume;
+    console.log('keg volume hit');
+    res.sendStatus(200);
+});
+
+
+router.post('/resetKegVolume', (req, res) => {
+   //take in query param to reset the volume of that keg to zero and interate the total number of kegs?
+});
 
 router.get('/garageStatus', (req, res) => {
     res.send({
@@ -22,8 +40,7 @@ router.get('/garageStatus', (req, res) => {
 });
 
 router.get('/healthCheck', (req, res) => {
-    console.log('test');
-    let timeSinceLastHealthCheck = dateService.timeBetween(homeStatus.garage.healthCheck);
+    const timeSinceLastHealthCheck = dateService.timeBetween(homeStatus.garage.healthCheck);
     if (timeSinceLastHealthCheck.hours > 2 ) {
       //alert timmy or something
     }
@@ -44,12 +61,10 @@ router.get('/status', (req, res) => {
 });
 
 router.get('/stringStatus', (req, res) => {
-    console.log('GET stringStatus:', convertStatusToString());
     res.send(convertStatusToString());
 });
 
 router.post('/garage', (req, res) => {
-    console.log(req.body);
     homeStatus.garage.doorClosed = convertStringToBoolean(req.body.garageDoorClosed);
     homeStatus.garage.lightOff = convertStringToBoolean(req.body.garageLightOff);
     res.send(convertStatusToString());

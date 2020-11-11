@@ -69,5 +69,10 @@ Make sure everything is working correctly then you can enable auto start with th
 #### Vim
 `sudo apt-get install vim`
 
+## Future Improvements
+
+1. Add MongoDB to save stats for when my Raspi restarts
+2. Setup Physical devices to display data
+
 
 

@@ -20,11 +20,15 @@ let homeStatus = {
 
 router.post('/kegVolume/', (req, res) => {
     //take in query param for which keg?
+    const parsedKegVolume = parseInt(req.body.kegVolume);
     // if (req.volume )
-    console.log(req.body);
-    // homeStatus.fridge.keg1Volume = req.body.kegVolume;
-    console.log('keg volume hit');
-    res.sendStatus(200);
+    homeStatus.fridge.keg1Volume = parsedKegVolume;
+    res.send({
+        fridge: {
+            keg1Volume: homeStatus.fridge.keg1Volume,
+            keg2Volume: homeStatus.fridge.keg2Volume,
+        }
+    })
 });
 
 

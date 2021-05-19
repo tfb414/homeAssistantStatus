@@ -69,6 +69,10 @@ Make sure everything is working correctly then you can enable auto start with th
 #### Vim
 `sudo apt-get install vim`
 
+###Logging
+To tail the logs from the raspberry pi
+`tail -f /var/log/syslog`
+
 ## Future Improvements
 
 1. Add MongoDB to save stats for when my Raspi restarts

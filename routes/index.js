@@ -10,7 +10,7 @@ let homeStatus = {
         doorClosed: true,
         lightOff: true,
         lastAlert: 0,
-        healthCheck: dateService.getCurrentEpochDate(),
+        healthCheck: "",
     },
     fridge: {
         keg1Volume: 0,

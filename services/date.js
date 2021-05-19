@@ -16,9 +16,7 @@ class DateService {
     };
 
     timeBetween(oldTime) {
-        const test = dateFns.intervalToDuration({start: oldTime, end: this.getCurrentEpochDate()});
-        console.log(test);
-        return test;
+        return dateFns.intervalToDuration({start: oldTime, end: this.getCurrentEpochDate()});
     }
 }
 

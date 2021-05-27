@@ -1,50 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const DateService = require('../services/date');
+const bradyBunch = require('../services/status');
 
 const dateService = new DateService();
 
-let homeStatus = {
-    button: true,
-    garage: {
-        doorClosed: true,
-        lightOff: true,
-        lastAlert: 0,
-        healthCheck: "",
-    },
-    fridge: {
-        keg1Volume: 0,
-        keg2Volume: 0,
-    }
-};
-
-router.post('/kegVolume/', (req, res) => {
-    //take in query param for which keg?
-    const parsedKegVolume = parseInt(req.body.kegVolume);
-    // if (req.volume )
-    homeStatus.fridge.keg1Volume = parsedKegVolume;
+router.get('/garageStatus',  (req, res) => {
+    const garageStatus = bradyBunch.getGarageStatus();
     res.send({
-        fridge: {
-            keg1Volume: homeStatus.fridge.keg1Volume,
-            keg2Volume: homeStatus.fridge.keg2Volume,
-        }
-    })
-});
-
-
-router.post('/resetKegVolume', (req, res) => {
-   //take in query param to reset the volume of that keg to zero and interate the total number of kegs?
-});
-
-router.get('/garageStatus', (req, res) => {
-    res.send({
-        garageDoorClosed: homeStatus.garage.doorClosed,
-        garageLightOff: homeStatus.garage.lightOff,
+        garageDoorClosed: garageStatus.doorClosed,
+        garageLightOff: garageStatus.lightOff,
     });
 });
 
 router.get('/healthCheck', (req, res) => {
-    const timeSinceLastHealthCheck = dateService.timeBetween(homeStatus.garage.healthCheck);
+    //this doesn't make any sense, the whole route
+    const garageStatus = bradyBunch.getGarageStatus();
+    const timeSinceLastHealthCheck = dateService.timeBetween(garageStatus.healthCheck);
     if (timeSinceLastHealthCheck.hours > 2 ) {
       //alert timmy or something
     }
@@ -52,35 +24,33 @@ router.get('/healthCheck', (req, res) => {
 });
 
 router.get('/status', (req, res) => {
-    const lastAlert = dateService.convertTimeToHumanReadable(homeStatus.garage.lastAlert);
-
+    const garageStatus = bradyBunch.getGarageStatus();
+    const lastAlert = dateService.convertTimeToHumanReadable(garageStatus.lastAlert);
     res.send({
-        ...homeStatus,
         garage: {
-          ...homeStatus.garage,
-          lastAlert: homeStatus.garage.lastAlert ? lastAlert : 0,
-          healthCheck: dateService.convertTimeToHumanReadable(homeStatus.garage.healthCheck)
+          ...garageStatus,
+          lastAlert: garageStatus.lastAlert ? lastAlert : 0,
+          healthCheck: dateService.convertTimeToHumanReadable(garageStatus.healthCheck)
         }
     });
 });
 
-router.get('/stringStatus', (req, res) => {
-    res.send(convertStatusToString());
-});
-
 router.post('/garage', (req, res) => {
-    homeStatus.garage.doorClosed = convertStringToBoolean(req.body.garageDoorClosed);
-    homeStatus.garage.lightOff = convertStringToBoolean(req.body.garageLightOff);
+    //apparently the arduino needs this to be a string
+    bradyBunch.updateGarage({
+        doorClosed: convertStringToBoolean(req.body.garageDoorClosed),
+        lightOff: convertStringToBoolean(req.body.garageLightOff),
+    })
     res.send(convertStatusToString());
 });
 
 router.post('/garageAlert', (req, res) => {
-    homeStatus.garage.lastAlert = dateService.getCurrentEpochDate();
+    bradyBunch.updateGarage({lastAlert: dateService.getCurrentEpochDate()})
     res.sendStatus(200);
 });
 
 router.post('/garageHealthCheck', (req, res) => {
-    homeStatus.garage.healthCheck = dateService.getCurrentEpochDate();
+    bradyBunch.updateGarage({healthCheck: dateService.getCurrentEpochDate()})
     res.sendStatus(200);
 });
 
@@ -89,9 +59,10 @@ const convertStringToBoolean = (str) => {
 };
 
 const convertStatusToString = () => {
+    const garageStatus = bradyBunch.getGarageStatus();
     return {
-        garageDoorClosed: homeStatus.garage.doorClosed.toString(),
-        garageLightOff: homeStatus.garage.lightOff.toString(),
+        garageDoorClosed: garageStatus.doorClosed.toString(),
+        garageLightOff: garageStatus.lightOff.toString(),
     };
 };
 module.exports = router;

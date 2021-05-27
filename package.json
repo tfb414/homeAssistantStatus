@@ -20,6 +20,7 @@
     "node-fetch": "^2.3.0",
     "pug": "^3.0.0",
     "serve-favicon": "^2.4.2",
+    "telegraf": "^4.3.0",
     "uglify-js": "^2.6.0",
     "winston": "^3.3.3"
   }

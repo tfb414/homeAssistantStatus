@@ -2,3 +2,4 @@ secrets
 .vscode
 node_modules
 .idea
+.env

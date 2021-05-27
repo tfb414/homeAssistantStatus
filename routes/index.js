@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const DateService = require('../services/date');
 const bradyBunch = require('../services/status');
+require('dotenv').config()
+
+//you need to initialize this somewhere else ya dummy
+const telegraf = require('../services/telegram/telegram');
 
 const dateService = new DateService();
 

@@ -81,6 +81,7 @@ To tail the logs from the raspberry pi
 
 1. Add MongoDB to save stats for when my Raspi restarts
 2. Setup Physical devices to display data
+3. For the love add Tmux so you can attach to the session please
 
 
 

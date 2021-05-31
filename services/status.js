@@ -2,7 +2,6 @@ const DateService = require('./date');
 
 const dateService = new DateService();
 
-
 class BradyBunch {
     constructor(){
         this.garage = {

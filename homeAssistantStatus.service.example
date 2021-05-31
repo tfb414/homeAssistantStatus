@@ -1,9 +1,9 @@
+[Unit]
 Description=homeAssistantStatus
-After=network.target
 
 [Service]
 ExecStart=/usr/local/bin/npm start
-WorkingDirectory=/home/pi/development/homeAssistantStatus
+WorkingDirectory=/home/pi/Development/homeassistantstatus
 StandardOutput=inherit
 StandardError=inherit
 Restart=always

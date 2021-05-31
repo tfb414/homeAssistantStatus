@@ -29,14 +29,14 @@ network={
 1. Find the right distribution of node that you'll need 
 2. Try and find an LTS version. Currently on linux armv6
 
-`wget https://nodejs.org/dist/v10.13.0/node-v10.13.0-linux-armv6l.tar.xz/`
+`wget https://nodejs.org/dist/v14.17.0/node-v14.17.0-linux-arm64.tar.xz`
 
 To unzip:
-`tar -xf node-v10.13.0-linux-armv6l.tar.xz`
+`tar -xf node-v14.17.0-linux-arm64.tar.xz`
 
 Cd into the directory you just unzipped and copy all of that so that node is available on path
 
-`cd node-v10.13.0-linux-armv6l.tarxz`
+`cd node-v14.17.0-linux-arm64/`
 
 `sudo cp -R * /usr/local/`
 
@@ -58,11 +58,15 @@ Make sure it's all working correctly
 
 `sudo cp homeAssistantStatus.service /etc/systemd/system/homeAssistantService.service`
 
+`sudo systemctl daemon-reload`
+`sudo systemctl enable homeAssistantStatus.service`
 `sudo systemctl start homeAssistantStatus.service`
 
-Make sure everything is working correctly then you can enable auto start with the below command
+Check if it's working correcty
 
-`sudo systemctl enable homeAssistantStatus.service`
+`sudo systemctl status homeAssistantStatus.service`
+
+If having issues look into running this through init.d Check google drive 
 
 ### Setup the pi
 

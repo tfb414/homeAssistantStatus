@@ -1,7 +1,7 @@
 const telegraph = require('telegraf');
 const bradyBunch = require('../status');
 
-const bot = new telegraph.Telegraf(process.env.BOT_TOKEN)
+const bot = new telegraph.Telegraf(process.env.TELEGRAF_BOT_TOKEN)
 
 console.log('starting')
 
